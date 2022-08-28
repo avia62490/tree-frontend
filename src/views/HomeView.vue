@@ -1,18 +1,50 @@
+<script>
+  import axios from 'axios'
+  export default {
+    data: function () {
+      return {
+        message: "Welcome to your app!",
+        posts: [],
+        newPost: {}
+      };
+    },
+    created: function () {
+      this.indexPosts ();
+    },
+    methods: {
+      indexPosts: function () {
+        axios.get("/posts.json").then(response => {
+          console.log(response.data);
+          this.posts = response.data;
+        })
+      },
+      createPost: function () {
+        axios.post()
+        console.log(this.newPost);
+      }
+    },
+  };
+</script>
+
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>{{ message }}</h1>
+    <hr/>
+    <p><b>Image URL: </b><input type="text" v-model="newPost.image_url" /></p>
+    <p><b>Description: </b><input type="text" v-model="newPost.description" /></p>
+    <p><b>Latitude: </b><input type="text" v-model="newPost.latitude" /></p>
+    <p><b>Longitude: </b><input type="text" v-model="newPost.longitude" /></p>
+    <button v-on:click="createPost()">Create Post</button>
+    <hr/>
+    <div v-for="post in posts">
+    <p>{{ post.image_url }}</p>
+    <p>{{ post.description }}</p>
+    <p><b>Latitude: </b>{{ post.latitude }}</p>
+    <p><b>Longitude: </b>{{ post.longitude }}</p>
+    <br/>
+    <hr/>
+    </div>>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+<style></style>
