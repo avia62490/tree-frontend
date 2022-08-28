@@ -19,8 +19,10 @@
         })
       },
       createPost: function () {
-        axios.post()
-        console.log(this.newPost);
+        axios.post("/posts.json", this.newPost).then(response => {
+          console.log(response.data);
+          this.posts.push(response.data);
+        })
       }
     },
   };
@@ -34,6 +36,7 @@
     <p><b>Description: </b><input type="text" v-model="newPost.description" /></p>
     <p><b>Latitude: </b><input type="text" v-model="newPost.latitude" /></p>
     <p><b>Longitude: </b><input type="text" v-model="newPost.longitude" /></p>
+    <p><b>User ID: </b><input type="text" v-model="newPost.user_id" /></p>
     <button v-on:click="createPost()">Create Post</button>
     <hr/>
     <div v-for="post in posts">
