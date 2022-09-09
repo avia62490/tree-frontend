@@ -1,7 +1,7 @@
 <script>
   import axios from 'axios';
   import mapboxgl from 'mapbox-gl';
-  
+
   export default {
     data: function () {
       return {
@@ -32,7 +32,7 @@
           map.addSource('earthquakes', {
             type: 'geojson',
             // Use a URL for the value for the `data` property.
-            data: 'http://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson'
+            data: 'http://localhost:3000/posts'
           });
           
           map.addLayer({
