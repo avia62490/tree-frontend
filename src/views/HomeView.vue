@@ -13,6 +13,7 @@
     },
     mounted: function () {
       this.makeMap ();
+      this.indexPosts();
     },
     methods: {
       makeMap: function() {
@@ -29,16 +30,16 @@
             map.setFog({}); // Set the default atmosphere style
         });
         map.on('load', () => {
-          map.addSource('earthquakes', {
+          map.addSource('trees', {
             type: 'geojson',
             // Use a URL for the value for the `data` property.
             data: 'http://localhost:3000/posts'
           });
           
           map.addLayer({
-            'id': 'earthquakes-layer',
+            'id': 'trees-layer',
             'type': 'circle',
-            'source': 'earthquakes',
+            'source': 'trees',
             'paint': {
               'circle-radius': 4,
               'circle-stroke-width': 2,
@@ -46,12 +47,41 @@
               'circle-stroke-color': 'white'
             }
           });
+
+          map.on('click', 'trees', (e) => {
+            // Copy coordinates array.
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = e.features[0].properties.description;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+           /*  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            } */
+
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+        });
+
+        map.on('mouseenter', 'trees', () => {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'trees', () => {
+            map.getCanvas().style.cursor = '';
+        });
+
         });
       },
       indexPosts: function () {
         axios.get("/posts.json").then(response => {
           console.log(response.data);
           this.posts = response.data;
+          console.log(response.data.features[0].geometry.coordinates);
         })
       },
       createPost: function () {
@@ -81,25 +111,25 @@
     <hr/>
 
     <!-- Create A Post -->
-    <p><b>Image URL: </b><input type="text" v-model="newPost.image_url" /></p>
+    <!-- <p><b>Image URL: </b><input type="text" v-model="newPost.image_url" /></p>
     <p><b>Description: </b><input type="text" v-model="newPost.description" /></p>
     <p><b>Latitude: </b><input type="text" v-model="newPost.latitude" /></p>
     <p><b>Longitude: </b><input type="text" v-model="newPost.longitude" /></p>
     <p><b>User ID: </b><input type="text" v-model="newPost.user_id" /></p>
     <button v-on:click="createPost()">Create Post</button>
-    <hr/>
+    <hr/> -->
 
     <div id='map' style='width: 640px; height: 600px;'></div>
   <!-- Index Posts -->
-    <div v-for="post in posts" v-bind:key="post.id">
+    <!-- <div v-for="post in posts" v-bind:key="post.id">
     <p>{{ post.image_url }}</p>
     <p>{{ post.description }}</p>
     <button v-on:click="showPost(post)">More Info</button>
     <br/>
-    <hr/>
+    <hr/> -->
 
     <!-- Show Post (modal) -->
-    <dialog id="post-details">
+    <!-- <dialog id="post-details">
       <form method="dialog">
         <img :src= currentPost.image_url width="480" height="360"/>
         <p>{{ currentPost.description }}</p>
@@ -116,8 +146,10 @@
         <button>Close</button>
       </form>
     </dialog>
-    </div>>
+    </div> -->
   </div>
 </template>
 
-<style></style>
+<style>
+  
+</style>
