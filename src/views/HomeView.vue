@@ -1,5 +1,7 @@
 <script>
-  import axios from 'axios'
+  import axios from 'axios';
+  import mapboxgl from 'mapbox-gl';
+  
   export default {
     data: function () {
       return {
@@ -9,10 +11,43 @@
         currentPost: {}
       };
     },
-    created: function () {
-      this.indexPosts ();
+    mounted: function () {
+      this.makeMap ();
     },
     methods: {
+      makeMap: function() {
+        console.log("makking map");
+        const coordinates = document.getElementById('coordinates');
+        mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_API_KEY
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v11', // style URL
+            center: [-87.62, 41.87], // starting position [lng, lat]
+            zoom: 6, // starting zoom
+        });
+        map.on('style.load', () => {
+            map.setFog({}); // Set the default atmosphere style
+        });
+        map.on('load', () => {
+          map.addSource('earthquakes', {
+            type: 'geojson',
+            // Use a URL for the value for the `data` property.
+            data: 'http://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson'
+          });
+          
+          map.addLayer({
+            'id': 'earthquakes-layer',
+            'type': 'circle',
+            'source': 'earthquakes',
+            'paint': {
+              'circle-radius': 4,
+              'circle-stroke-width': 2,
+              'circle-color': 'red',
+              'circle-stroke-color': 'white'
+            }
+          });
+        });
+      },
       indexPosts: function () {
         axios.get("/posts.json").then(response => {
           console.log(response.data);
@@ -54,6 +89,7 @@
     <button v-on:click="createPost()">Create Post</button>
     <hr/>
 
+    <div id='map' style='width: 640px; height: 600px;'></div>
   <!-- Index Posts -->
     <div v-for="post in posts" v-bind:key="post.id">
     <p>{{ post.image_url }}</p>
