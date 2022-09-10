@@ -1,0 +1,1 @@
+https://soal.github.io/vue-mapbox/guide/#using-as-es-module

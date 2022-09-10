@@ -48,7 +48,7 @@
             }
           });
 
-          map.on('click', 'trees', (e) => {
+          map.on('click', 'trees-layer', (e) => {
             // Copy coordinates array.
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = e.features[0].properties.description;
@@ -56,22 +56,22 @@
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
             // over the copy being pointed to.
-           /*  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+           while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            } */
+            }
 
             new mapboxgl.Popup()
                 .setLngLat(coordinates)
-                .setHTML(description)
+                .setHTML("hello world!!")
                 .addTo(map);
         });
 
-        map.on('mouseenter', 'trees', () => {
+        map.on('mouseenter', 'trees-layer', () => {
             map.getCanvas().style.cursor = 'pointer';
         });
 
         // Change it back to a pointer when it leaves.
-        map.on('mouseleave', 'trees', () => {
+        map.on('mouseleave', 'trees-layer', () => {
             map.getCanvas().style.cursor = '';
         });
 
