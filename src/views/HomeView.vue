@@ -51,7 +51,10 @@
           map.on('click', 'trees-layer', (e) => {
             // Copy coordinates array.
             const coordinates = e.features[0].geometry.coordinates.slice();
-            const filler = e.features[0].properties.id;
+            const user_name = e.features[0].properties.user_name;
+            const image = e.features[0].properties.image;
+            console.log(coordinates)
+            console.log(image)
 
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
@@ -62,7 +65,7 @@
 
             new mapboxgl.Popup()
                 .setLngLat(coordinates)
-                .setHTML("<h1>Hello World!</h1><p>Subtext</p>")
+                .setHTML(`<img src="${image}" width="200" /><p><b>${user_name}</p>`)
                 .addTo(map);
         });
 
@@ -81,7 +84,6 @@
         axios.get("/posts.json").then(response => {
           console.log(response.data);
           this.posts = response.data;
-          console.log(response.data.features[0].geometry.coordinates);
         })
       },
       createPost: function () {
