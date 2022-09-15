@@ -29,10 +29,15 @@
     <div class="home">
       <h1>{{ message }}</h1>
       <div>
-        <p><b>{{ post }}</b></p>
-
+        <img :src="post.image_url" />
+        <p><b>{{ post.description }}</b></p>
       </div>
     </div>
   </template>
   
-  <style></style>
+  <style>
+    img {
+      width: 80%;
+      height: auto;
+    }
+  </style>
