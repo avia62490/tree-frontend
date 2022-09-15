@@ -3,21 +3,15 @@ import HomeView from '../views/HomeView.vue'
 import SignupView from "../views/SignupView.vue";
 import LoginView from "../views/LoginView.vue";
 import LogoutView from "../views/LogoutView.vue";
+import ShowPostView from "../views/ShowPost.vue";
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
+  { path: '/', name: 'home', component: HomeView },
+  { path: '/about', name: 'about', component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')},
   { path: "/signup", name: "signup", component: SignupView },
   { path: "/login", name: "login", component: LoginView },
-  { path: "/logout", name: "logout", component: LogoutView }
+  { path: "/logout", name: "logout", component: LogoutView },
+  { path: "/post/:id", name: "showpost", component: ShowPostView }
 ]
 
 const router = createRouter({
