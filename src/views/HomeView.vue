@@ -53,8 +53,9 @@
             const coordinates = e.features[0].geometry.coordinates.slice();
             const user_name = e.features[0].properties.user_name;
             const image = e.features[0].properties.image;
+            const post_id = e.features[0].properties.id;
             console.log(coordinates)
-            console.log(image)
+            console.log(post_id)
 
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
@@ -65,7 +66,8 @@
 
             new mapboxgl.Popup()
                 .setLngLat(coordinates)
-                .setHTML(`<img src="${image}" width="200" /><p><b>${user_name}</p>`)
+                .setHTML(`<a href="/posts/${post_id}"><img src="${image}" width="200" /></a>
+                <p><b>${user_name}</p>`)
                 .addTo(map);
         });
 

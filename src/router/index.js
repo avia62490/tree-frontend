@@ -11,7 +11,7 @@ const routes = [
   { path: "/signup", name: "signup", component: SignupView },
   { path: "/login", name: "login", component: LoginView },
   { path: "/logout", name: "logout", component: LogoutView },
-  { path: "/post/:id", name: "showpost", component: ShowPostView }
+  { path: "/posts/:id", name: "showpost", component: ShowPostView }
 ]
 
 const router = createRouter({
