@@ -69,16 +69,15 @@
                 .setHTML(`<a href="/posts/${post_id}"><img src="${image}" width="200" /></a>
                 <p><b>${user_name}</p>`)
                 .addTo(map);
-        });
+          });
 
-        map.on('mouseenter', 'trees-layer', () => {
+          map.on('mouseenter', 'trees-layer', () => {
             map.getCanvas().style.cursor = 'pointer';
-        });
+          });
 
-        // Change it back to a pointer when it leaves.
-        map.on('mouseleave', 'trees-layer', () => {
-            map.getCanvas().style.cursor = '';
-        });
+          map.on('mouseleave', 'trees-layer', () => {
+              map.getCanvas().style.cursor = '';
+          });
 
         });
       },
@@ -88,11 +87,47 @@
           this.posts = response.data;
         })
       },
-      createPost: function () {
-        axios.post("/posts.json", this.newPost).then(response => {
-          console.log(response.data);
-          this.posts.push(response.data);
-        })
+      postsCreate: function () {
+        console.log("adding post")
+        mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_API_KEY
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v11', // style URL
+            center: [-87.62, 41.87], // starting position [lng, lat]
+            zoom: 6, // starting zoom
+        });
+        map.on('load', () => {
+          map.addSource('trees', {
+            type: 'geojson',
+            // Use a URL for the value for the `data` property.
+            data: 'http://localhost:3000/posts'
+          });
+          
+          map.addLayer({
+            'id': 'trees-layer',
+            'type': 'circle',
+            'source': 'trees',
+            'paint': {
+              'circle-radius': 4,
+              'circle-stroke-width': 2,
+              'circle-color': 'red',
+              'circle-stroke-color': 'white'
+            }
+          });
+        });
+        const marker = new mapboxgl.Marker({
+          draggable: true
+          })
+          .setLngLat([-87.62, 41.87])
+          .addTo(map);
+          
+          function onDragEnd() {
+          const lngLat = marker.getLngLat();
+          coordinates.style.display = 'block';
+          coordinates.innerHTML = `Longitude: ${lngLat.lng}<br />Latitude: ${lngLat.lat}`;
+          }
+          
+          marker.on('dragend', onDragEnd);
       },
       showPost: function (thePost) {
         console.log("sjowing post");
@@ -114,46 +149,24 @@
     <h1>{{ message }}</h1>
     <hr/>
 
-    <!-- Create A Post -->
-    <!-- <p><b>Image URL: </b><input type="text" v-model="newPost.image_url" /></p>
-    <p><b>Description: </b><input type="text" v-model="newPost.description" /></p>
-    <p><b>Latitude: </b><input type="text" v-model="newPost.latitude" /></p>
-    <p><b>Longitude: </b><input type="text" v-model="newPost.longitude" /></p>
-    <p><b>User ID: </b><input type="text" v-model="newPost.user_id" /></p>
-    <button v-on:click="createPost()">Create Post</button>
-    <hr/> -->
-
     <div id='map' style='width: 640px; height: 600px;'></div>
-  <!-- Index Posts -->
-    <!-- <div v-for="post in posts" v-bind:key="post.id">
-    <p>{{ post.image_url }}</p>
-    <p>{{ post.description }}</p>
-    <button v-on:click="showPost(post)">More Info</button>
-    <br/>
-    <hr/> -->
-
-    <!-- Show Post (modal) -->
-    <!-- <dialog id="post-details">
-      <form method="dialog">
-        <img :src= currentPost.image_url width="480" height="360"/>
-        <p>{{ currentPost.description }}</p>
-        <p><b>Latitude: </b>{{ currentPost.latitude }}</p>
-        <p><b>Longitude: </b>{{ currentPost.longitude }}</p>
-        <hr/>
-        <hr/>
-        <p>Update Post here</p>
-        <p>image url: <input type="text" v-model="currentPost.image_url"/></p>
-        <p>description: <input type="text" v-model="currentPost.description"/></p>
-        <p>latitude: <input type="text" v-model="currentPost.latitude"/></p>
-        <p>longitude: <input type="text" v-model="currentPost.longitude"/></p>
-        <button v-on:click="updatePost()">Update</button>
-        <button>Close</button>
-      </form>
-    </dialog>
-    </div> -->
+    <pre id="coordinates" class="coordinates"></pre>
+    <button v-on:click="postsCreate()">Add Post</button>
   </div>
 </template>
 
 <style>
-  
+  .coordinates {
+background: rgba(0, 0, 0, 0.5);
+color: #fff;
+position: absolute;
+bottom: 40px;
+left: 10px;
+padding: 5px 10px;
+margin: 0;
+font-size: 11px;
+line-height: 18px;
+border-radius: 3px;
+display: none;
+}
 </style>
