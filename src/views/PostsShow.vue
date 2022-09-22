@@ -5,7 +5,8 @@
       data: function () {
         return {
           message: "This is a POST!",
-          post: {}
+          post: {},
+          marker: {}
         };
       },
       created: function () {
@@ -41,11 +42,20 @@
             center: [postLng, postLat], // starting position [lng, lat]
             zoom: 13, // starting zoom
           });
-          const marker = new mapboxgl.Marker({
+          this.marker = new mapboxgl.Marker({
           draggable: true
           })
           .setLngLat([postLng, postLat])
           .addTo(map);
+
+          this.marker.on('dragend', this.onDragEnd);
+        },
+        onDragEnd() {
+          const lngLat = this.marker.getLngLat();
+          console.log(lngLat.lng)
+          console.log(lngLat.lat)
+          this.post.longitude = lngLat.lng
+          this.post.latitude = lngLat.lat
         }
       },
     };
