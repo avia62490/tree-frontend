@@ -12,18 +12,15 @@
       },
       methods: {
         postsShow: function() {
-          console.log("showing post")
           axios.get(`/posts/${this.$route.params.id}.json`).then(response => {
             console.log(response.data);
             this.post = response.data;
           })
         },
         postEdit: function () {
-          console.log("updating post")
           document.querySelector('#edit-post').showModal()
         },
         updatePost: function() {
-          console.log('updating product...')
           axios.patch(`http://localhost:3000/posts/${this.post.id}.json`, this.post).then(response => {
           console.log(response.data)
           })

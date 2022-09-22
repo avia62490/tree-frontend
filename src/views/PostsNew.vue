@@ -5,7 +5,8 @@
       data: function () {
         return {
           message: "Making new post!",
-          newPost: {}
+          newPost: {},
+          marker: {}
         };
       },
       mounted: function () {
@@ -40,28 +41,29 @@
             }
           });
         });
-        const marker = new mapboxgl.Marker({
+         this.marker = new mapboxgl.Marker({
           draggable: true
           })
           .setLngLat([-87.62, 41.87])
           .addTo(map);
           
-          function onDragEnd() {
-            const lngLat = marker.getLngLat();
-            console.log(lngLat.lng)
-            console.log(lngLat.lat)
-            coordinates.style.display = 'block';
-            coordinates.innerHTML = `Longitude: ${lngLat.lng}<br />Latitude: ${lngLat.lat}`;
-          }
           
-          marker.on('dragend', onDragEnd);
+          
+          this.marker.on('dragend', this.onDragEnd);
         },
         createPost() {
           axios.post("http://localhost:3000/posts.json", this.newPost).then(response => {
           console.log(response.data)
           this.$router.push("/");
           })
-        }
+        },
+        onDragEnd() {
+            const lngLat = this.marker.getLngLat();
+            console.log(lngLat.lng)
+            console.log(lngLat.lat)
+            this.newPost.longitude = lngLat.lng
+            this.newPost.latitude = lngLat.lat
+          }
       },
     };
 </script>
