@@ -48,26 +48,51 @@
           
           function onDragEnd() {
             const lngLat = marker.getLngLat();
-            console.log(lngLat)
+            console.log(lngLat.lng)
+            console.log(lngLat.lat)
+            coordinates.style.display = 'block';
+            coordinates.innerHTML = `Longitude: ${lngLat.lng}<br />Latitude: ${lngLat.lat}`;
           }
           
           marker.on('dragend', onDragEnd);
+        },
+        createPost() {
+          axios.post("http://localhost:3000/posts.json", this.newPost).then(response => {
+          console.log(response.data)
+          this.$router.push("/");
+          })
         }
       },
     };
-  </script>
+</script>
   
-  <template>
-    <div class="home">
-      <h1>{{ message }}</h1>
-      <div id='map' style='width: 640px; height: 600px;'></div>
-      <pre id="coordinates" class="coordinates"></pre>
-    </div>
-    <div>
-      
-    </div>
-  </template>
+<template>
+  <div class="home">
+    <h1>{{ message }}</h1>
+    <div id='map' style='width: 640px; height: 600px;'></div>
+    <pre id="coordinates" class="coordinates"></pre>
+  </div>
+  <div>
+    <p>Longitude: <input type="text" v-model="newPost.longitude"></p>
+    <p>Latitude: <input type="text" v-model="newPost.latitude"></p>
+    <p>Description: <input type="text" v-model="newPost.description"></p>
+    <p>Image: <input type="text" v-model="newPost.image_url"></p>
+    <button v-on:click="createPost">Create Post</button>
+  </div>
+</template>
   
-  <style>
-    
-  </style>
+<style>
+  .coordinates {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    padding: 5px 10px;
+    margin: 0;
+    font-size: 11px;
+    line-height: 18px;
+    border-radius: 3px;
+    display: none;
+  }
+</style>
