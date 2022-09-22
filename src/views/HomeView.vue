@@ -13,11 +13,9 @@
     },
     mounted: function () {
       this.makeMap ();
-      this.indexPosts();
     },
     methods: {
       makeMap: function() {
-        console.log("makking map");
         const coordinates = document.getElementById('coordinates');
         mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_API_KEY
         const map = new mapboxgl.Map({
@@ -49,26 +47,21 @@
           });
 
           map.on('click', 'trees-layer', (e) => {
-            // Copy coordinates array.
+            
             const coordinates = e.features[0].geometry.coordinates.slice();
             const user_name = e.features[0].properties.user_name;
             const image = e.features[0].properties.image;
             const post_id = e.features[0].properties.id;
-            console.log(coordinates)
-            console.log(post_id)
 
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
-           while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
 
             new mapboxgl.Popup()
-                .setLngLat(coordinates)
-                .setHTML(`<a href="/posts/${post_id}"><img src="${image}" width="200" /></a>
-                <p><b>${user_name}</p>`)
-                .addTo(map);
+              .setLngLat(coordinates)
+              .setHTML(`<a href="/posts/${post_id}"><img src="${image}" width="200" /></a>
+              <p><b>${user_name}</p>`)
+              .addTo(map);
           });
 
           map.on('mouseenter', 'trees-layer', () => {
@@ -80,23 +73,6 @@
           });
 
         });
-      },
-      indexPosts: function () {
-        axios.get("/posts.json").then(response => {
-          console.log(response.data);
-          this.posts = response.data;
-        })
-      },
-      showPost: function (thePost) {
-        console.log("sjowing post");
-        this.currentPost = thePost;
-        document.querySelector('#post-details').showModal();
-      },
-      updatePost: function () {
-        axios.patch(`/posts/${this.currentPost.id}.json`, this.currentPost).then(response => {
-          console.log(response.data)
-        })
-        console.log(`updating post ${this.currentPost.id}`)
       }
     },
   };
@@ -108,7 +84,7 @@
     <hr/>
     <div id='map' style='width: 640px; height: 600px;'></div>
     <pre id="coordinates" class="coordinates"></pre>
-    <button v-on:click="postsCreate()">Add Post</button>
+    <button onclick="window.location.href='/posts/new';">Add Post</button>
   </div>
 </template>
 
