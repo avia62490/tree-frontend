@@ -52,7 +52,13 @@
           this.marker.on('dragend', this.onDragEnd);
         },
         createPost() {
-          axios.post("http://localhost:3000/posts.json", this.newPost).then(response => {
+          var formData = new FormData();
+            formData.append("longitude", this.newPost.longitude);
+            formData.append("latitude", this.newPost.latitude);
+            formData.append("description", this.newPost.description);
+            formData.append("image", this.image);
+
+          axios.post("http://localhost:3000/posts.json", formData, this.newPost).then(response => {
           console.log(response.data)
           this.$router.push("/");
           })
@@ -63,7 +69,12 @@
             console.log(lngLat.lat)
             this.newPost.longitude = lngLat.lng
             this.newPost.latitude = lngLat.lat
+        },
+        setFile: function(event) {
+          if (event.target.files.length > 0) {
+            this.image = event.target.files[0];
           }
+        }
       },
     };
 </script>
@@ -78,7 +89,7 @@
     <p>Longitude: <input type="text" v-model="newPost.longitude"></p>
     <p>Latitude: <input type="text" v-model="newPost.latitude"></p>
     <p>Description: <input type="text" v-model="newPost.description"></p>
-    <p>Image: <input type="text" v-model="newPost.image_url"></p>
+    <p>Image: <input type="file" v-on:change="setFile($event)" ref="fileInput"></p>
     <button v-on:click="createPost">Create Post</button>
   </div>
 </template>
