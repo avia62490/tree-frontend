@@ -52,6 +52,7 @@
             const user_name = e.features[0].properties.user_name;
             const image = e.features[0].properties.image;
             const post_id = e.features[0].properties.id;
+            const user_id = e.features[0].properties.user_id;
 
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -60,7 +61,7 @@
             new mapboxgl.Popup()
               .setLngLat(coordinates)
               .setHTML(`<a href="/posts/${post_id}"><img src="${image}" width="200" /></a>
-              <p><b>${user_name}</p>`)
+              <a href="/users/${user_id}"><p><b>${user_name}</p></a>`)
               .addTo(map);
           });
 
