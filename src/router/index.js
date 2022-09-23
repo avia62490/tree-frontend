@@ -5,6 +5,7 @@ import LoginView from "../views/LoginView.vue";
 import LogoutView from "../views/LogoutView.vue";
 import PostsShow from "../views/PostsShow.vue";
 import PostsNew from "../views/PostsNew.vue";
+import UsersShow from "../views/UsersShow.vue";
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
@@ -13,7 +14,8 @@ const routes = [
   { path: "/login", name: "login", component: LoginView },
   { path: "/logout", name: "logout", component: LogoutView },
   { path: "/posts/:id", name: "postsshow", component: PostsShow },
-  { path: "/posts/new", name: "postsnew", component: PostsNew }
+  { path: "/posts/new", name: "postsnew", component: PostsNew },
+  { path: "/users/:id", name: "usersshow", component: UsersShow }
 ]
 
 const router = createRouter({
