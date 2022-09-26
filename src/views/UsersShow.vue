@@ -11,6 +11,7 @@
     },
     mounted: function () {
       this.makeMap ();
+      this.userPostsIndex ();
     },
     methods: {
       makeMap: function() {
@@ -71,6 +72,12 @@
           });
 
         });
+      },
+      userPostsIndex: function () {
+        axios.get(`users/${this.$route.params.id}`).then(response => {
+          console.log(response.data.features)
+          this.posts = response.data.features
+        })
       }
     },
   };
@@ -82,8 +89,13 @@
     <hr/>
     <div id='map' style='width: 640px; height: 600px;'></div>
     <pre id="coordinates" class="coordinates"></pre>
-    <button onclick="window.location.href='/posts/new';">Add Post</button>
   </div>
+  <br />
+  <div class="posts" v-for="post in posts" v-bind:key="post.id">
+    <img :src="post.properties.image" style="width:600px"/>
+    <p>{{ post.properties.description }}</p>
+    <br />
+  </div> 
 </template>
 
 <style>
