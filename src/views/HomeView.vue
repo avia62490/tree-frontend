@@ -83,12 +83,18 @@
   <div class="home">
     <h1>{{ message }}</h1>
     <hr/>
-    <div id='map' style='width: 640px; height: 600px;'></div>
+
+    <div id='map' class="mapDisplay"></div>
     <pre id="coordinates" class="coordinates"></pre>
     <button onclick="window.location.href='/posts/new';">Add Post</button>
   </div>
 </template>
 
 <style>
-
+  .mapDisplay {
+    min-width: 600px;
+    min-height: 600px;
+    width: 100%;
+    height: 100%;
+  }
 </style>
