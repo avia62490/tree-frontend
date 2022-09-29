@@ -18,7 +18,7 @@
         mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_API_KEY
         const map = new mapboxgl.Map({
             container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/streets-v11', // style URL
+            style: 'mapbox://styles/mapbox/light-v10', // style URL
             center: [-87.62, 41.87], // starting position [lng, lat]
             zoom: 6, // starting zoom
         });
@@ -34,10 +34,10 @@
             'type': 'circle',
             'source': 'trees',
             'paint': {
-              'circle-radius': 4,
-              'circle-stroke-width': 2,
-              'circle-color': 'red',
-              'circle-stroke-color': 'white'
+              'circle-radius': 3,
+              'circle-stroke-width': 3,
+              'circle-color': 'white',
+              'circle-stroke-color': '#64a19d'
             }
           });
         });
@@ -80,18 +80,29 @@
 </script>
   
 <template>
-  <div class="home">
-    <h1>{{ message }}</h1>
-    <div id='map' style='width: 640px; height: 600px;'></div>
-    <pre id="coordinates" class="coordinates"></pre>
-  </div>
-  <div>
-    <p>Longitude: <input type="text" v-model="newPost.longitude"></p>
-    <p>Latitude: <input type="text" v-model="newPost.latitude"></p>
-    <p>Description: <input type="text" v-model="newPost.description"></p>
-    <p>Image: <input type="file" v-on:change="setFile($event)" ref="fileInput"></p>
-    <button v-on:click="createPost">Create Post</button>
-  </div>
+  <section class="about-section text-center" id="about">
+    <h2 class="text-white mb-5">Drag marker to set location</h2>
+    <div class="container px-4 px-lg-5">
+      <div class="col-lg-10">
+        <div id='map' class="mapDisplay"></div>
+        <pre id="coordinates" class="coordinates"></pre>   
+        <br/>     
+      </div>
+    </div>
+  </section>
+  
+    <div class="container px-4 px-lg-5">
+      
+        <div class="col-md-10 col-lg-8 mx-auto text-center">
+          
+            <div class="row">Image: <input type="file" v-on:change="setFile($event)" ref="fileInput"></div>
+              <div class="row">Longitude:<input class="form-control" type="text" v-model="newPost.longitude" /></div>
+              <div class="row">Latitude:<input class="form-control" type="text" v-model="newPost.latitude" /></div>
+              <div class="row">Description:<input class="form-control" type="text" v-model="newPost.description" /></div>
+              <div class="row-auto"><button class="btn btn-primary" v-on:click="createPost">Create Post!</button></div>
+        </div>
+      
+    </div>
 </template>
   
 <style>
