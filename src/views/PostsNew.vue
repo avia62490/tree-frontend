@@ -90,19 +90,18 @@
       </div>
     </div>
   </section>
-  
-    <div class="container px-4 px-lg-5">
-      
-        <div class="col-md-10 col-lg-8 mx-auto text-center">
-          
-            <div class="row">Image: <input type="file" v-on:change="setFile($event)" ref="fileInput"></div>
-              <div class="row">Longitude:<input class="form-control" type="text" v-model="newPost.longitude" /></div>
-              <div class="row">Latitude:<input class="form-control" type="text" v-model="newPost.latitude" /></div>
-              <div class="row">Description:<input class="form-control" type="text" v-model="newPost.description" /></div>
-              <div class="row-auto"><button class="btn btn-primary" v-on:click="createPost">Create Post!</button></div>
-        </div>
-      
+  <br/>
+  <div class="container px-4 px-lg-5">
+    <div class="col-md-10 col-lg-8 mx-auto text-center">
+      <div class="row">Image: <input type="file" v-on:change="setFile($event)" ref="fileInput"></div>
+      <div class="row">Longitude:<input class="form-control" type="text" v-model="newPost.longitude" /></div>
+      <div class="row">Latitude:<input class="form-control" type="text" v-model="newPost.latitude" /></div>
+      <div class="row">Description:<input class="form-control" type="text" v-model="newPost.description" /></div>
+      <br/>
+      <div class="row-auto"><button class="btn btn-primary" v-on:click="createPost">Create Post!</button></div>
     </div>
+  </div>
+  <br/>
 </template>
   
 <style>
