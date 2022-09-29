@@ -20,7 +20,7 @@
         mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_API_KEY
         const map = new mapboxgl.Map({
             container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/streets-v11', // style URL
+            style: 'mapbox://styles/mapbox/light-v10', // style URL
             center: [-87.62, 41.87], // starting position [lng, lat]
             zoom: 6, // starting zoom
         });
@@ -80,14 +80,18 @@
 </script>
 
 <template>
-  <div class="home">
-    <h1>{{ message }}</h1>
-    <hr/>
-
-    <div id='map' class="mapDisplay"></div>
-    <pre id="coordinates" class="coordinates"></pre>
-    <button onclick="window.location.href='/posts/new';">Add Post</button>
-  </div>
+  <section class="about-section text-center" id="about">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-lg-8">
+          <div id='map' class="mapDisplay"></div>
+          <pre id="coordinates" class="coordinates"></pre>   
+          <br/>
+          <a class="btn btn-primary" href="/posts/new">Create Post</a>     
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style>
@@ -95,6 +99,6 @@
     min-width: 600px;
     min-height: 600px;
     width: 100%;
-    height: 100%;
+    height: 80%;
   }
 </style>
