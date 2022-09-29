@@ -5,10 +5,6 @@
   export default {
     data: function () {
       return {
-        message: "Welcome to your app!",
-        posts: [],
-        newPost: {},
-        currentPost: {}
       };
     },
     mounted: function () {
@@ -39,10 +35,10 @@
             'type': 'circle',
             'source': 'trees',
             'paint': {
-              'circle-radius': 4,
-              'circle-stroke-width': 2,
-              'circle-color': 'red',
-              'circle-stroke-color': 'white'
+              'circle-radius': 3,
+              'circle-stroke-width': 3,
+              'circle-color': 'white',
+              'circle-stroke-color': '#64a19d'
             }
           });
 
@@ -62,6 +58,7 @@
               .setLngLat(coordinates)
               .setHTML(`<a href="/posts/${post_id}"><img src="${image}" width="200" /></a>
               <a href="/users/${user_id}"><p><b>${user_name}</p></a>`)
+              .addClassName('popup')
               .addTo(map);
           });
 
@@ -82,13 +79,12 @@
 <template>
   <section class="about-section text-center" id="about">
     <div class="container px-4 px-lg-5">
-      <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-lg-8">
-          <div id='map' class="mapDisplay"></div>
-          <pre id="coordinates" class="coordinates"></pre>   
-          <br/>
-          <a class="btn btn-primary" href="/posts/new">Create Post</a>     
-        </div>
+      <div class="col-lg-10">
+        <div id='map' class="mapDisplay"></div>
+        <pre id="coordinates" class="coordinates"></pre>   
+        <br/>
+        <a class="btn btn-primary" href="/posts/new">Create Post</a>     
+        
       </div>
     </div>
   </section>
@@ -100,5 +96,8 @@
     min-height: 600px;
     width: 100%;
     height: 80%;
+  }
+  .popup {
+    height: 100px;
   }
 </style>
