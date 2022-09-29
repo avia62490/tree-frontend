@@ -29,21 +29,34 @@
 </script>
 
 <template>
-  <div class="login">
-    <form v-on:submit.prevent="submit()">
-      <h1>Login</h1>
-      <ul>
-        <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-      </ul>
-      <div>
-        <label>Email:</label>
-        <input type="email" v-model="newSessionParams.email" />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" v-model="newSessionParams.password" />
-      </div>
-      <input type="submit" value="Submit" />
-    </form>
-  </div>
+  <section class="signup-section" id="signup">
+    <div class="container px-4 px-lg-5">
+      <form v-on:submit.prevent="submit()">
+        <div class="col-md-2"><h1 class="login-text">Log in</h1></div>
+        <ul>
+          <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+        </ul>
+        <div>
+          <label class="login-text">Email:</label>
+          <input class="form-control" type="email" placeholder="Enter email address..." v-model="newSessionParams.email" />
+        </div>
+        <div>
+          <label class="login-text">Password:</label>
+          <input class="form-control" type="password" placeholder="Enter password..." v-model="newSessionParams.password" />
+        </div>
+        <div class="col-md-10 col-lg-8 mx-auto text-center">
+          <input class="btn btn-primary" type="submit" value="Submit" />
+        </div>
+      </form>
+    </div>
+  </section>
 </template>
+
+<style>
+  .login-text {
+    color: white;
+    background-color: #64a19d;
+    align-content: center;
+    align-items: center;
+  }
+</style>
