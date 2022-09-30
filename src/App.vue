@@ -8,9 +8,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
               <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
-                <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
-                <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                <li v-if="!isLoggedIn" class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+                <li v-if="!isLoggedIn" class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                <li v-if="isLoggedIn" class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
               </ul>
           </div>
       </div>
@@ -19,6 +19,21 @@
    <!-- Footer-->
    <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; Your Website 2022</div></footer>
 </template>
+
+<script>
+  export default {
+    data: function() {
+      return {
+        isLoggedIn: !!localStorage.jwt
+      }
+    },
+    watch: {
+      $route: function() {
+        this.isLoggedIn = !!localStorage.jwt
+      }
+    }
+  }
+</script>
 
 <style>
 

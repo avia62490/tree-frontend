@@ -18,7 +18,7 @@
             container: 'map', // container ID
             style: 'mapbox://styles/mapbox/light-v10', // style URL
             center: [-87.62, 41.87], // starting position [lng, lat]
-            zoom: 6, // starting zoom
+            zoom: 10, // starting zoom
         });
         map.on('style.load', () => {
             map.setFog({}); // Set the default atmosphere style
