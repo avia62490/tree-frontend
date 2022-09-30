@@ -5,7 +5,6 @@
   export default {
     data: function () {
       return {
-        message: "User Profile!!",
         posts: []
       };
     },
@@ -19,7 +18,7 @@
         mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_API_KEY
         const map = new mapboxgl.Map({
             container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/streets-v11', // style URL
+            style: 'mapbox://styles/mapbox/light-v10', // style URL
             center: [-87.62, 41.87], // starting position [lng, lat]
             zoom: 6, // starting zoom
         });
@@ -38,10 +37,10 @@
             'type': 'circle',
             'source': 'trees',
             'paint': {
-              'circle-radius': 4,
-              'circle-stroke-width': 2,
-              'circle-color': 'red',
-              'circle-stroke-color': 'white'
+              'circle-radius': 3,
+              'circle-stroke-width': 3,
+              'circle-color': 'white',
+              'circle-stroke-color': '#64a19d'
             }
           });
 
@@ -84,18 +83,49 @@
 </script>
 
 <template>
-  <div class="home">
-    <h1>{{ message }}</h1>
-    <hr/>
-    <div id='map' style='width: 640px; height: 600px;'></div>
-    <pre id="coordinates" class="coordinates"></pre>
-  </div>
+  <section class="about-section text-center" id="about">
+    <div class="container px-4 px-lg-5">
+      <div class="col-lg-10">
+        <div id='map' class="mapDisplay"></div>
+        <pre id="coordinates" class="coordinates"></pre>
+      </div>
+      <br/>
+    </div>
+  </section>
   <br />
-  <div class="posts" v-for="post in posts" v-bind:key="post.id">
-    <img :src="post.properties.image" style="width:600px"/>
-    <p>{{ post.properties.description }}</p>
-    <br />
-  </div> 
+  <section class="projects-section bg-light" id="projects">
+    <div class="container px-4 px-lg-5" v-for="(post, index) in posts" v-bind:key="post.id">
+        <br/>
+        <div v-if="index % 2 === 0" class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+            <div class="col-lg-6"><img :src="post.properties.image"/></div>
+            <div class="col-lg-6">
+                <div class="bg-black text-center h-100 project">
+                    <div class="d-flex h-100">
+                        <div class="project-text w-100 my-auto text-center text-lg-left">
+                            <p class="mb-0 text-white-50">{{ post.properties.description }}</p>
+                            <hr class="d-none d-lg-block mb-0 ms-0" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div v-if="index % 2 !== 0" class="row gx-0 justify-content-center">
+            <div class="col-lg-6"><img :src="post.properties.image"/></div>
+            <div class="col-lg-6 order-lg-first">
+                <div class="bg-black text-center h-100 project">
+                    <div class="d-flex h-100">
+                        <div class="project-text w-100 my-auto text-center text-lg-right">
+                            <p class="mb-0 text-white-50">{{ post.properties.description }}</p>
+                            <hr class="d-none d-lg-block mb-0 me-0" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+  </section>
 </template>
 
 <style>
