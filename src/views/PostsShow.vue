@@ -30,6 +30,15 @@
         console.log(response.data)
         })
       },
+      deleteWarning: function() {
+        document.querySelector('#warning').showModal()
+      },
+      deletePost: function() {
+        axios.delete(`/posts/${this.post.id}`).then(response => {
+          console.log(response.data)
+          this.$router.push("/");
+        })
+      },
       makeMap: function() {
         const coordinates = document.getElementById('coordinates');
         mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_API_KEY
@@ -83,7 +92,15 @@
       <p><b>Latitude:</b> <input type="text" v-model="post.latitude" /></p>
       <button class="btn btn-primary" v-on:click="updatePost()">Update Post</button>
       <button class="btn btn-light">Close</button>
-      <button class="btn btn-danger" v-on:click="destroyProduct(currentProduct)">Delete Product</button>
+      <button class="btn btn-danger" v-on:click="deleteWarning()">Delete Post</button>
+    </form>
+  </dialog>
+
+  <dialog id="warning">
+    <form method="dialog">
+      <p>Do you want to delete this post?</p>
+      <button class="btn btn-light">No</button>
+      <button class="btn btn-danger" v-on:click="deletePost()">Yes</button>
     </form>
   </dialog>
 
