@@ -13,7 +13,6 @@
       this.postsShow();
     },
     mounted: function () {
-
     },
     methods: {
       postsShow: function() {
@@ -23,14 +22,17 @@
         })
       },
       postEdit: function () {
+        // Displays modal so post can be edited
         document.querySelector('#edit-post').showModal()
       },
       updatePost: function() {
+        // Saves changes to any updates
         axios.patch(`http://localhost:3000/posts/${this.post.id}.json`, this.post).then(response => {
         console.log(response.data)
         })
       },
       deleteWarning: function() {
+        // Warning display before user deletes a post
         document.querySelector('#warning').showModal()
       },
       deletePost: function() {

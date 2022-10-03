@@ -1,7 +1,5 @@
 <script>
-  import axios from 'axios';
   import mapboxgl from 'mapbox-gl';
-
   export default {
     data: function () {
       return {
@@ -20,16 +18,13 @@
             center: [-87.62, 41.87], // starting position [lng, lat]
             zoom: 10, // starting zoom
         });
-        map.on('style.load', () => {
-            map.setFog({}); // Set the default atmosphere style
-        });
+        // Access user created posts for map locations
         map.on('load', () => {
           map.addSource('trees', {
             type: 'geojson',
-            // Use a URL for the value for the `data` property.
             data: 'http://localhost:3000/posts'
           });
-          
+          // Adds layer over the map display corresponding to each post
           map.addLayer({
             'id': 'trees-layer',
             'type': 'circle',
@@ -41,19 +36,15 @@
               'circle-stroke-color': '#64a19d'
             }
           });
-
+          // Defines what happens when user clicks on a point from the 'trees-layer'(the points on the map)
           map.on('click', 'trees-layer', (e) => {
-            
+            // Obtains key data from each post to be referenced in other actions
             const coordinates = e.features[0].geometry.coordinates.slice();
             const user_name = e.features[0].properties.user_name;
             const image = e.features[0].properties.image;
             const post_id = e.features[0].properties.id;
             const user_id = e.features[0].properties.user_id;
-
-            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            }
-
+            // Pop-up box will appear when clicked on
             new mapboxgl.Popup()
               .setLngLat(coordinates)
               .setHTML(`<a href="/posts/${post_id}"><img src="${image}" width="200" /></a>
@@ -61,15 +52,14 @@
               .addClassName('popup')
               .addTo(map);
           });
-
+          // Cursor turns changes style when hovering over post location on map
           map.on('mouseenter', 'trees-layer', () => {
             map.getCanvas().style.cursor = 'pointer';
           });
-
+          // Cursor changes back when it is no longer on post location
           map.on('mouseleave', 'trees-layer', () => {
               map.getCanvas().style.cursor = '';
           });
-
         });
       }
     },
@@ -83,9 +73,9 @@
         <div id='map' class="mapDisplay"></div>
         <pre id="coordinates" class="coordinates"></pre>   
         <br/>
-        <a class="btn btn-primary" href="/posts/new">Create Post</a>     
-        
+        <a class="btn btn-primary" href="/posts/new">Create Post</a>
       </div>
+      <br/>
     </div>
   </section>
 </template>
@@ -96,8 +86,5 @@
     min-height: 600px;
     width: 100%;
     height: 80%;
-  }
-  .popup {
-    height: 100px;
   }
 </style>
